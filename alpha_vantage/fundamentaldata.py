@@ -1,5 +1,6 @@
 from .alphavantage import AlphaVantage as av
 
+from typing import Literal
 from datetime import datetime
 search_date = datetime.now().date().strftime('%Y-%m-%d')
 
@@ -115,3 +116,45 @@ class FundamentalData(av):
         """
         _FUNCTION_KEY = 'CASH_FLOW'
         return _FUNCTION_KEY, 'quarterlyReports', 'symbol'
+
+    @av._output_format
+    @av._call_api_on_func
+    def get_earnings_quarterly(self, symbol):
+        """
+        Returns the annual and quarterly earnings (EPS) for the company of interest.
+        Data is generally refreshed on the same day a company reports its latest 
+        earnings and financials.
+
+        Keyword Arguments:
+            symbol:  the symbol for the equity we want to get its data
+        """
+        _FUNCTION_KEY = 'EARNINGS'
+        return _FUNCTION_KEY, 'quarterlyEarnings', 'symbol'
+    
+    @av._output_format
+    @av._call_api_on_func
+    def get_earnings_annual(self, symbol):
+        """
+        Returns the annual and quarterly earnings (EPS) for the company of interest.
+        Data is generally refreshed on the same day a company reports its latest 
+        earnings and financials.
+
+        Keyword Arguments:
+            symbol:  the symbol for the equity we want to get its data
+        """
+        _FUNCTION_KEY = 'EARNINGS'
+        return _FUNCTION_KEY, 'annualEarnings', 'symbol'
+    
+    @av._output_format
+    @av._call_api_on_func
+    def get_listings(self, date=None, state: Literal['active', 'delisted'] = 'active'):
+        """
+        Returns a list of active or delisted US stocks and ETFs, either as of the latest
+        trading day or at a specific time in history. The endpoint is positioned to facilitate 
+        equity research on asset lifecycle and survivorship.
+
+        Keyword Arguments:
+            symbol:  the symbol for the equity we want to get its data
+        """
+        _FUNCTION_KEY = 'LISTING_STATUS'
+        return _FUNCTION_KEY, 'annualEarnings', 'date'
